@@ -12,7 +12,6 @@ const ReportsView: React.FC<Props> = ({ items, logs }) => {
   const totalItems = items.length;
   const criticalItems = items.filter(i => i.quantity <= i.reorderLevel * 0.5).length;
   
-  // Hitung nilai per kategori
   const categories = Array.from(new Set(items.map(i => i.category)));
   const categoryStats = categories.map(cat => {
     const catItems = items.filter(i => i.category === cat);
@@ -23,12 +22,15 @@ const ReportsView: React.FC<Props> = ({ items, logs }) => {
   const maxValue = Math.max(...categoryStats.map(s => s.value), 1);
 
   const handleExportCSV = () => {
-    const headers = ["Nama Produk", "SKU", "Kategori", "Stok", "Harga Satuan", "Total Nilai", "Pemasok"];
+    const headers = ["Nama Produk", "SKU", "Kategori", "Stok", "Lokasi", "Kondisi", "PIC", "Harga Satuan", "Total Nilai", "Pemasok"];
     const rows = items.map(i => [
       i.name,
       i.sku,
       i.category,
       i.quantity,
+      i.location,
+      i.condition,
+      i.responsiblePerson,
       i.price,
       i.price * i.quantity,
       i.supplier
@@ -70,11 +72,11 @@ const ReportsView: React.FC<Props> = ({ items, logs }) => {
         </div>
         <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
           <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Kesehatan Stok</p>
-          <p className="text-lg font-black text-green-600">{((totalItems - criticalItems) / totalItems * 100).toFixed(0)}% Aman</p>
+          <p className="text-lg font-black text-green-600">{totalItems > 0 ? ((totalItems - criticalItems) / totalItems * 100).toFixed(0) : 0}% Aman</p>
         </div>
       </div>
 
-      {/* Grafik Batang Kustom: Nilai Per Kategori */}
+      {/* Grafik Batang */}
       <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
         <h3 className="text-sm font-bold text-slate-800 mb-6 flex justify-between items-center">
           Visualisasi Nilai Aset
@@ -99,7 +101,7 @@ const ReportsView: React.FC<Props> = ({ items, logs }) => {
         </div>
       </div>
 
-      {/* Distribusi Kategori (Tabel) */}
+      {/* Distribusi Kategori */}
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
         <div className="p-4 border-b border-slate-50">
           <h3 className="text-sm font-bold text-slate-800">Detail Distribusi</h3>

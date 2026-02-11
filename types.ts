@@ -20,6 +20,9 @@ export interface InventoryItem {
   price: number;
   supplier: string;
   supplierEmail: string;
+  location: string;
+  condition: string;
+  responsiblePerson: string;
   lastRestocked?: string;
 }
 

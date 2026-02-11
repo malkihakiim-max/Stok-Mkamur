@@ -43,7 +43,7 @@ const ItemDetail: React.FC<Props> = ({ item, logs, userRole, onClose, onRestock 
 
         <div className="overflow-y-auto flex-1 p-5 space-y-6">
           {/* Main Info Grid */}
-          <div className={`grid gap-4 ${isManager ? 'grid-cols-2' : 'grid-cols-1'}`}>
+          <div className="grid grid-cols-2 gap-4">
             <div className="bg-slate-50 p-4 rounded-2xl flex flex-col justify-center">
               <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Stok Saat Ini</p>
               <p className={`text-2xl font-black ${item.quantity <= item.reorderLevel ? 'text-amber-600' : 'text-slate-800'}`}>
@@ -51,23 +51,36 @@ const ItemDetail: React.FC<Props> = ({ item, logs, userRole, onClose, onRestock 
               </p>
             </div>
             
-            {isManager && (
-              <>
-                <div className="bg-slate-50 p-4 rounded-2xl">
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Batas Minimum</p>
-                  <p className="text-2xl font-black text-slate-800">{item.reorderLevel}</p>
-                </div>
-                <div className="bg-slate-50 p-4 rounded-2xl">
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Harga Satuan</p>
-                  <p className="text-lg font-bold text-slate-800">Rp{item.price.toLocaleString('id-ID')}</p>
-                </div>
-                <div className="bg-slate-50 p-4 rounded-2xl">
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Total Nilai</p>
-                  <p className="text-lg font-bold text-slate-800">Rp{(item.price * item.quantity).toLocaleString('id-ID')}</p>
-                </div>
-              </>
-            )}
+            <div className="bg-slate-50 p-4 rounded-2xl">
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Tempat Simpan</p>
+              <p className="text-lg font-black text-indigo-600">{item.location || '-'}</p>
+            </div>
           </div>
+
+          {/* Operational Details */}
+          <div className="grid grid-cols-2 gap-3">
+             <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Kondisi Barang</p>
+                <p className="text-xs font-bold text-slate-700">{item.condition || '-'}</p>
+             </div>
+             <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Penanggung Jawab</p>
+                <p className="text-xs font-bold text-slate-700">{item.responsiblePerson || '-'}</p>
+             </div>
+          </div>
+
+          {isManager && (
+            <div className="grid grid-cols-2 gap-3">
+                <div className="bg-slate-50 p-3 rounded-xl">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Harga Satuan</p>
+                  <p className="text-sm font-bold text-slate-800">Rp{item.price.toLocaleString('id-ID')}</p>
+                </div>
+                <div className="bg-slate-50 p-3 rounded-xl">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total Nilai</p>
+                  <p className="text-sm font-bold text-slate-800">Rp{(item.price * item.quantity).toLocaleString('id-ID')}</p>
+                </div>
+            </div>
+          )}
 
           {/* Supplier Info */}
           <div className="bg-indigo-50 p-4 rounded-2xl border border-indigo-100">
@@ -143,7 +156,7 @@ const ItemDetail: React.FC<Props> = ({ item, logs, userRole, onClose, onRestock 
           </div>
 
           {/* History Log */}
-          <div className="space-y-3">
+          <div className="space-y-3 pb-8">
             <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
               <Icons.History /> Riwayat Stok Terbaru
             </h3>

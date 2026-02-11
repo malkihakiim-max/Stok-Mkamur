@@ -1,8 +1,13 @@
 
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 import { InventoryItem } from "../types";
 
+/**
+ * Service to interact with Gemini for inventory insights.
+ * Uses process.env.API_KEY which can be configured in Netlify Environment Variables.
+ */
 export const getInventoryInsights = async (items: InventoryItem[]) => {
+  // Initialize GenAI with the API key from environment variables
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   const lowStockItems = items.filter(i => i.quantity <= i.reorderLevel);
@@ -22,6 +27,7 @@ export const getInventoryInsights = async (items: InventoryItem[]) => {
   `;
 
   try {
+    // Using the generateContent method as required by the latest @google/genai guidelines
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: prompt,
@@ -30,9 +36,11 @@ export const getInventoryInsights = async (items: InventoryItem[]) => {
         topP: 0.9,
       }
     });
+    
+    // Access the generated text directly via the .text property
     return response.text;
   } catch (error) {
     console.error("Kesalahan Gemini:", error);
-    return "Gagal menghasilkan wawasan AI saat ini.";
+    return "Gagal menghasilkan wawasan AI saat ini. Periksa konfigurasi API Key di Netlify.";
   }
 };

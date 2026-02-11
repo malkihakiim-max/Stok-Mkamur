@@ -7,13 +7,10 @@ export const fetchSheetData = async (url: string): Promise<InventoryItem[] | nul
   try {
     let csvUrl = url.trim();
     
-    // Konversi link Google Sheets biasa (/edit) menjadi link CSV (/pub)
     if (csvUrl.includes('docs.google.com/spreadsheets')) {
       if (csvUrl.includes('/edit')) {
-        // Mengubah .../edit?usp=sharing menjadi .../pub?output=csv
         csvUrl = csvUrl.replace(/\/edit.*$/, '/pub?output=csv');
       } else if (!csvUrl.includes('output=csv')) {
-        // Memastikan parameter output=csv ada
         csvUrl += (csvUrl.includes('?') ? '&' : '?') + 'output=csv';
       }
     }
@@ -28,7 +25,6 @@ export const fetchSheetData = async (url: string): Promise<InventoryItem[] | nul
     
     const csvText = await response.text();
     
-    // Cek apakah response benar-benar CSV atau malah halaman login HTML (karena belum di-publish)
     if (csvText.includes('<!DOCTYPE html>') || csvText.includes('google-signin')) {
       throw new Error('Sheet belum di "Publish to Web". Ikuti panduan di menu Atur.');
     }
@@ -54,7 +50,7 @@ export const fetchSheetData = async (url: string): Promise<InventoryItem[] | nul
 
     const rows = csvText.split('\n')
       .map(row => parseCSVRow(row.trim()))
-      .filter(row => row.length > 1); // Buang baris kosong
+      .filter(row => row.length > 1);
 
     if (rows.length < 2) throw new Error('Sheet kosong atau format tidak sesuai.');
 
@@ -69,7 +65,10 @@ export const fetchSheetData = async (url: string): Promise<InventoryItem[] | nul
       stock: findIndex(['stok', 'jumlah', 'qty', 'stock', 'kuantitas']),
       price: findIndex(['harga', 'price', 'nilai', 'cost']),
       supplier: findIndex(['pemasok', 'supplier', 'vendor']),
-      email: findIndex(['email', 'kontak'])
+      email: findIndex(['email', 'kontak']),
+      location: findIndex(['lokasi', 'tempat', 'rak', 'simpan', 'location']),
+      condition: findIndex(['kondisi', 'status barang', 'condition']),
+      pic: findIndex(['pic', 'penanggung jawab', 'pj', 'responsible'])
     };
 
     const items: InventoryItem[] = rows.slice(1)
@@ -91,14 +90,17 @@ export const fetchSheetData = async (url: string): Promise<InventoryItem[] | nul
           reorderLevel: 5,
           price: cleanNumber(rawPrice),
           supplier: row[idx.supplier]?.trim() || 'Pemasok Umum',
-          supplierEmail: row[idx.email]?.trim() || 'admin@pemasok.com'
+          supplierEmail: row[idx.email]?.trim() || 'admin@pemasok.com',
+          location: row[idx.location]?.trim() || '-',
+          condition: row[idx.condition]?.trim() || 'Normal',
+          responsiblePerson: row[idx.pic]?.trim() || '-'
         };
       });
 
     return items;
   } catch (error: any) {
     console.error("Sheet Fetch Error:", error.message);
-    throw error; // Lemparkan error agar bisa ditangkap UI
+    throw error;
   }
 };
 

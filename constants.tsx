@@ -2,11 +2,11 @@
 import React from 'react';
 
 export const INITIAL_DATA: any[] = [
-  { id: '1', sku: 'LAP-001', name: 'MacBook Pro 14"', category: 'Elektronik', quantity: 12, reorderLevel: 5, price: 30000000, supplier: 'Apple Inc.', supplierEmail: 'sales@apple.com' },
-  { id: '2', sku: 'PHN-002', name: 'iPhone 15 Pro', category: 'Elektronik', quantity: 3, reorderLevel: 10, price: 20000000, supplier: 'Apple Inc.', supplierEmail: 'sales@apple.com' },
-  { id: '3', sku: 'MON-003', name: 'Studio Display', category: 'Periferal', quantity: 1, reorderLevel: 4, price: 25000000, supplier: 'Apple Inc.', supplierEmail: 'sales@apple.com' },
-  { id: '4', sku: 'MOU-004', name: 'Magic Mouse', category: 'Periferal', quantity: 25, reorderLevel: 10, price: 1200000, supplier: 'Logitech', supplierEmail: 'b2b@logitech.com' },
-  { id: '5', sku: 'KBD-005', name: 'Mechanical Keyboard', category: 'Periferal', quantity: 8, reorderLevel: 15, price: 2000000, supplier: 'Keychron', supplierEmail: 'support@keychron.com' },
+  { id: '1', sku: 'LAP-001', name: 'MacBook Pro 14"', category: 'Elektronik', quantity: 12, reorderLevel: 5, price: 30000000, supplier: 'Apple Inc.', supplierEmail: 'sales@apple.com', location: 'Rak A1', condition: 'Baru', responsiblePerson: 'Budi' },
+  { id: '2', sku: 'PHN-002', name: 'iPhone 15 Pro', category: 'Elektronik', quantity: 3, reorderLevel: 10, price: 20000000, supplier: 'Apple Inc.', supplierEmail: 'sales@apple.com', location: 'Rak A2', condition: 'Baru', responsiblePerson: 'Siti' },
+  { id: '3', sku: 'MON-003', name: 'Studio Display', category: 'Periferal', quantity: 1, reorderLevel: 4, price: 25000000, supplier: 'Apple Inc.', supplierEmail: 'sales@apple.com', location: 'Rak B1', condition: 'Bekas/Display', responsiblePerson: 'Budi' },
+  { id: '4', sku: 'MOU-004', name: 'Magic Mouse', category: 'Periferal', quantity: 25, reorderLevel: 10, price: 1200000, supplier: 'Logitech', supplierEmail: 'b2b@logitech.com', location: 'Laci C3', condition: 'Baru', responsiblePerson: 'Agus' },
+  { id: '5', sku: 'KBD-005', name: 'Mechanical Keyboard', category: 'Periferal', quantity: 8, reorderLevel: 15, price: 2000000, supplier: 'Keychron', supplierEmail: 'support@keychron.com', location: 'Rak B2', condition: 'Baru', responsiblePerson: 'Agus' },
 ];
 
 export const Icons = {
